@@ -18,7 +18,7 @@ p = zeros(size(X, 1), 1);
 X = [ones(m, 1) X];
 
 % ====================== YOUR CODE HERE ======================
-% Instructions: Complete the following code to make predictions using
+% Instructions: Complete the following code to make predictions usingy
 %               your learned logistic regression parameters (one-vs-all).
 %               You should set p to a vector of predictions (from 1 to
 %               num_labels).
@@ -30,8 +30,10 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+tmp = X * (all_theta)';
+[max_values,indices] =max(tmp,[],2);
 
-
+p = indices;
 
 
 
