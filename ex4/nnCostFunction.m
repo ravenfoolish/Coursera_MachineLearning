@@ -60,25 +60,42 @@ Theta2_grad = zeros(size(Theta2));
 %               backpropagation. That is, you can compute the gradients for
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
-%
 
 
+% Settings
+a1 = X;
+a1 = [ones(m, 1) a1];
+z2 = a1 * Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(m, 1) a2];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
+hx = a3;
 
+% y = 5000x1, hx = 5000x10 dimention. to be able to　calculate　each other...
+Y = zeros(m, num_labels);
+for k = 1:m
+    Y(k, y(k)) = 1;
+end
 
+% Feedforward Using Neural Network
+J = -1/m * sum(sum(Y .* log(hx) + (1 - Y).*log(1 - hx)));
+J = J + lambda/(2*m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
 
+% Backpropagation
+delta3 = a3 - Y;
+delta2 = (delta3 * Theta2) .* sigmoidGradient([ones(size(z2, 1), 1) z2]);
+delta2 = delta2(:, 2:end);
 
+Theta1_grad = 1/m * (delta2' * a1); %25*401 (=Theta1)
+Theta2_grad = 1/m * (delta3' * a2); %10*26 (=Theta2)
 
+% Regularized Neural Narworks
+reg1 = lambda/m * [zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
+reg2 = lambda/m * [zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
 
-
-
-
-
-
-
-
-
-
-
+Theta1_grad = Theta1_grad + reg1;
+Theta2_grad = Theta2_grad + reg2;
 
 % -------------------------------------------------------------
 
