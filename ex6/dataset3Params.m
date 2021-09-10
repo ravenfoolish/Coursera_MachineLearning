@@ -23,11 +23,34 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+% Variables
+C_train = [0.01;0.03;0.1;0.3;1;3;10;30];
+sigma_train = [0.01;0.03;0.1;0.3;1;3;10;30];
+m = size(C_train, 1);
+n = size(sigma_train, 1);
+error_val = ones(m*n, 3);
 
+% Ensure that x1 and x2 are column vectors
+x1 = X(:,1); 
+x2 = X(:,2);
 
+for i=1:m
+    for j=1:n
+    error_val(i * j, 1) = C_train(i);
+    error_val(i * j, 2) = sigma_train(j);
+    model = svmTrain(X, y, C_train(i), @(x1, x2) gaussianKernel(x1, x2, sigma_train(j)));
+    predictions = svmPredict(model, Xval);
+    error_val(i * j, 3) = mean(double(predictions ~= yval));
+    end
+end
 
+% find minimum of prediction error
+error_val_vec = error_val(:, 3);
+error_val_min = min(error_val(:, 3));
+find_error_val_min = error_val(find(error_val_vec == error_val_min), :);
 
-
+C = find_error_val_min(1);
+sigma = find_error_val_min(2);
 
 % =========================================================================
 
