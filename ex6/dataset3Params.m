@@ -36,11 +36,11 @@ x2 = X(:,2);
 
 for i=1:m
     for j=1:n
-    error_val(i * j, 1) = C_train(i);
-    error_val(i * j, 2) = sigma_train(j);
-    model = svmTrain(X, y, C_train(i), @(x1, x2) gaussianKernel(x1, x2, sigma_train(j)));
-    predictions = svmPredict(model, Xval);
-    error_val(i * j, 3) = mean(double(predictions ~= yval));
+        error_val(i*j, 1) = C_train(i);
+        error_val(i*j, 2) = sigma_train(j);
+        model = svmTrain(X, y, C_train(i), @(x1, x2) gaussianKernel(x1, x2, sigma_train(j)));
+        predictions = svmPredict(model, Xval);
+        error_val(i*j, 3) = mean(double(predictions ~= yval));
     end
 end
 
