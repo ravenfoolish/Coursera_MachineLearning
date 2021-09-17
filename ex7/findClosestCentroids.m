@@ -25,8 +25,7 @@ m = size(X,1);
 d = zeros(m, 3);
 for i=1:m
     for j=1:K
-        diff = X(i,:)-centroids(j,:);
-        d(i, j) = diff * diff';
+        d(i, j) = sum((X(i,:)-centroids(j,:)).^2);
     end
     idx_min = min(d, [], 2);
     idx(i) = find(d(i,:) == idx_min(i));
