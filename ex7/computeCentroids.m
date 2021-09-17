@@ -25,19 +25,12 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-centroid_vec = [idx, X];
 % example of X when closest centroids = 1,
 % centroid_vec(idx==i,2:3)
 
 for i = 1:K
-    centroids(i,:) = mean(centroid_vec(idx==i,2:3));
+    centroids(i, :) = mean(X(idx==i, :));
 end
-
-
-
-
-
-
 
 % =============================================================
 
